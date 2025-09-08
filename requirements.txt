@@ -1,1 +1,6 @@
 streamlit
+gspread
+fpdf
+google-api-python-client
+networkx
+graphviz
