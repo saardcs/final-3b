@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graph</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    #graphs-container {
+      position: relative;
+      width: 760px;
+      height: 400px;
+      margin: 40px auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    .graph {
+      position: relative;
+      width: 560px;
+      height: 400px;
+    }
+    .node {
+      position: absolute;
+    }
+    .composite input {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: #f0f0f0;
+      border: 2px solid #444;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      outline: none;
+    }
+    .prime input {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e2ffe2;
+      border: 2px solid #444;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      outline: none;
+    }
+    input[readonly] {
+      background: #ddd;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <div id="graphs-container">
+    <!-- Graph 1 -->
+    <div class="graph" id="graph1">
+      <svg width="100%" height="100%" style="position:absolute; top:0; left:0; z-index:0;" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="120" x2="180" y2="90" stroke="#555" stroke-width="3" />
+        <line x1="120" y1="20"  x2="110" y2="150" stroke="#555" stroke-width="3" /> <!-- 2-4 -->
+        <line x1="120" y1="20"  x2="180" y2="90"  stroke="#555" stroke-width="3" /> <!-- 2-3 -->
+        <line x1="180" y1="90"  x2="140" y2="230" stroke="#555" stroke-width="3" /> <!-- 3-5 -->
+        <line x1="110" y1="150" x2="40"  y2="280" stroke="#555" stroke-width="3" /> <!-- 4-9 -->
+        <line x1="140" y1="230" x2="40"  y2="280" stroke="#555" stroke-width="3" /> <!-- 5-9 -->
+        <line x1="140" y1="230" x2="370" y2="150" stroke="#555" stroke-width="3" /> <!-- 5-8 -->
+        <line x1="110" y1="150" x2="140" y2="230" stroke="#555" stroke-width="3" /> <!-- 4-5 -->
+        <line x1="110" y1="150" x2="370" y2="150" stroke="#555" stroke-width="3" /> <!-- 4-8 -->
+        <line x1="370" y1="280" x2="370" y2="150" stroke="#555" stroke-width="3" /> <!-- 7-8 -->
+        <line x1="220" y1="370" x2="370" y2="150" stroke="#555" stroke-width="3" /> <!-- 6-8 -->
+        <line x1="140" y1="230" x2="220" y2="370" stroke="#555" stroke-width="3" /> <!-- 5-6 -->
+        <line x1="140" y1="230" x2="370" y2="280" stroke="#555" stroke-width="3" /> <!-- 5-7 -->
+        <line x1="180" y1="90"  x2="370" y2="280" stroke="#555" stroke-width="3" /> <!-- 3-7 -->
+      </svg>
+
+      <!-- Nodes -->
+      <div class="node prime" style="top: 100px; left: 0px;">
+        <input id="node1" />
+      </div>
+
+      <div class="node prime" style="top: 0px; left: 100px;">
+        <input id="node2" />
+      </div>
+
+      <div class="node prime" style="top: 70px; left: 160px;">
+        <input id="node3" />
+      </div>
+
+      <div class="node prime" style="top: 130px; left: 90px;">
+        <input id="node4" />
+      </div>
+
+      <div class="node prime" style="top: 210px; left: 120px;">
+        <input id="node5" />
+      </div>
+
+      <div class="node prime" style="top: 350px; left: 200px;">
+        <input id="node6" />
+      </div>
+
+      <div class="node prime" style="top: 260px; left: 350px;">
+        <input id="node7" />
+      </div>
+
+      <div class="node prime" style="top: 130px; left: 350px;">
+        <input id="node8" />
+      </div>
+
+      <div class="node prime" style="top: 260px; left: 20px;">
+        <input id="node9" />
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function getGraphValues() {
+      const vals = {
+        graph1: {
+          node1: document.getElementById("node1").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node2: document.getElementById("node2").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node3: document.getElementById("node3").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node4: document.getElementById("node4").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node5: document.getElementById("node5").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node6: document.getElementById("node6").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node7: document.getElementById("node7").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node8: document.getElementById("node8").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+          node9: document.getElementById("node9").value.toUpperCase().trim().replace(/[^YBR]/g, ""),
+        }
+      };
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: "streamlit:setComponentValue",
+        value: vals,
+      }, "*");
+    }
+
+    document.querySelectorAll("input").forEach((el) => el.addEventListener("input", getGraphValues));
+
+    function sendMessage(type, data = {}) {
+      window.parent.postMessage({ isStreamlitMessage: true, type, ...data }, "*");
+    }
+
+    window.addEventListener("message", (e) => {
+      if (e.data.type === "streamlit:render") {
+        sendMessage("streamlit:setFrameHeight", { height: document.documentElement.scrollHeight });
+      }
+    });
+
+    sendMessage("streamlit:componentReady", { apiVersion: 1 });
+    sendMessage("streamlit:setFrameHeight", { height: document.documentElement.scrollHeight });
+
+    
+  </script>
+</body>
+</html>
+
