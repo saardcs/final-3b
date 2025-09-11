@@ -376,7 +376,7 @@ st.write("18. List the **edges** of your tree (e.g. Animals - Mammals).")
 
 col1, col2 = st.columns([2, 5])
 with col1:
-    st.subheader("Edges:")
+    # st.subheader("Edges:")
     edge_inputs = [st.text_input(f"Edge {i+1}", placeholder="Node1 - Node2", key=f"edge_{i}", label_visibility="collapsed")
                for i in range(6)]
 # edges = [e.strip() for e in edge_inputs if e and "-" in e]
@@ -424,7 +424,7 @@ if root in G:
                 queue.append(neighbor)
 
 with col2:
-    st.subheader("Tree Visualization")
+    # st.subheader("Tree Visualization")
 
     # Build Graphviz Digraph
     if T.number_of_edges() > 0:
