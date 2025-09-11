@@ -4,3 +4,4 @@ fpdf
 google-api-python-client
 networkx
 graphviz
+streamlit_drawable_canvas
