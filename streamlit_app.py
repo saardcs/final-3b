@@ -1,6 +1,7 @@
 import streamlit as st
 import decimal
 import streamlit.components.v1 as components
+from streamlit_drawable_canvas import st_canvas
 
 st.set_page_config(page_title="Final Exam", layout="centered")
 st.title("Final Exam")
